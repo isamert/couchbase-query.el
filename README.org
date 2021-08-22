@@ -1,0 +1,2 @@
+* couchbase-query.el
+A simple inferior mode for cbq command. It let's you run your Couchbase queries interactively inside Emacs. It also adds JSON syntax highlighting for the results and provides some simple command completion.
