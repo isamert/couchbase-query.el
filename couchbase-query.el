@@ -77,7 +77,6 @@
         (point))))
 
 (defun couchbase-query--current-command ()
-  ""
   (save-excursion
     (comint-bol)
     (skip-syntax-forward " " (point-at-eol))
@@ -88,7 +87,6 @@
 ;; Right now it only completes cbq commands. Maybe in the future it'll
 ;; do more if I start using queries more
 (defun couchbase-query--completion-at-point ()
-  (interactive)
   (let* ((bounds (bounds-of-thing-at-point 'symbol))
          (symbol (thing-at-point 'symbol))
          (start (or (car bounds) (point)))
