@@ -49,7 +49,15 @@
   :type 'boolean
   :group 'couchbase-query)
 
-(defvar couchbase-query--command-list
+(defcustom couchbase-query-history-file
+  "~/.cbq_history"
+  "File to restore command history from.
+Set to nil to disable loading history file.  This uses cbq's own
+history file."
+  :type 'string
+  :group 'couchbase-query)
+
+(defconst couchbase-query--command-list
   '("ALIAS"
     "CONNECT"
     "COPYRIGHT"
@@ -101,6 +109,14 @@
   "Major mode for interactively evaluating Couchbase queries."
   (setq-local completion-ignore-case t)
   (setq-local comint-prompt-read-only couchbase-query-prompt-readonly)
+  (when couchbase-query-history-file
+    (mapc
+     #'comint-add-to-input-history
+     (split-string
+      (with-temp-buffer
+        (insert-file-contents (expand-file-name couchbase-query-history-file))
+        (buffer-string))
+      "\n" t)))
   (add-hook 'completion-at-point-functions 'couchbase-query--completion-at-point nil 'local)
   (set (make-local-variable 'font-lock-defaults) '(json-font-lock-keywords-1 t)))
 
